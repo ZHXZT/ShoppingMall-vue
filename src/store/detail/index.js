@@ -18,7 +18,16 @@ const actions = {
         }
     }
 }
-const getters = {}
+//简化数据用的
+const getters = {
+    categoryView(state) {
+        //state.goodInfo初始为空对象，空对象的categoryView属性值为undefined
+        return state.goodInfo.categoryView || {};
+    },
+    skuInfo(state) {
+        return state.goodInfo.skuInfo || {};
+    }
+}
 export default{
     state,
     mutations,
