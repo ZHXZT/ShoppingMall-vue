@@ -13,3 +13,5 @@ export const reqGetBannerList = ()=>mockRequests.get('/banner');
 export const reqFloorList = ()=>mockRequests.get('/floor');
 //搜索模块的
 export const reqGetSearchInfo = (params)=>requests({url:"/list",method:"post",data:params});
+//商品详情页的
+export const reqGoodsInfo = (skuId)=>requests({url:`/item/${skuId}`,method:'get'});

@@ -9,6 +9,7 @@ import Home from '@/pages/Home'
 import Search from '@/pages/Search'
 import Register from '@/pages/Register'
 import Login from '@/pages/Login'
+import Detail from '@/pages/Detail'
 
 // 保存原来的push和replace方法
 let originPush = VueRouter.prototype.push;
@@ -33,6 +34,11 @@ VueRouter.prototype.replace = function(location,resolve,reject){
 export default new VueRouter({
     routes:[
         {
+            path:"/detail/:skuid?",
+            component:Detail,
+            meta:{show:true}
+        },
+        {
             path:"/home",
             component:Home,
             meta:{show:true}
@@ -46,7 +52,7 @@ export default new VueRouter({
         {
             path:"/register",
             component:Register,
-            meta:{show:false}
+            meta:{show:false} 
 
         },
         {
@@ -62,5 +68,10 @@ export default new VueRouter({
 
         }
 
-    ]
+    ],
+    //滚动行为
+    scrollBehavior(to,from,savedPosition){
+        //代表滚动条在最上
+        return{y:0};
+    }
 })
