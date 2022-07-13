@@ -20,12 +20,18 @@ const actions = {
 }
 //简化数据用的
 const getters = {
+    //简化路径导航
     categoryView(state) {
         //state.goodInfo初始为空对象，空对象的categoryView属性值为undefined
         return state.goodInfo.categoryView || {};
     },
+    //简化产品信息
     skuInfo(state) {
         return state.goodInfo.skuInfo || {};
+    },
+    //简化产品售卖属性
+    spuSaleAttrList(state){
+        return state.goodInfo.spuSaleAttrList || [];
     }
 }
 export default{
