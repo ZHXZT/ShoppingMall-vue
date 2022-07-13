@@ -1,4 +1,4 @@
-import { reqGoodsInfo } from "@/api"
+import { reqGoodsInfo,reqAddOrUpdateShopCart } from "@/api"
 const state = {
     goodInfo:{}
 }
@@ -16,7 +16,17 @@ const actions = {
         }else{
             console.log(result);
         }
-    }
+    },
+    //将产品加入购物车
+    //加入购物车后服务器并没有返回数据，不需要三连环存储数据
+     async addOrUpdateShopCart({commit},{skuId,skuNum}){
+         let result = await reqAddOrUpdateShopCart(skuId,skuNum);
+         if(result.code == 200){
+             return "ok"
+         }else{
+             return Promise.reject(new Error('失败'))
+         }
+     }
 }
 //简化数据用的
 const getters = {
