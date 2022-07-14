@@ -399,7 +399,7 @@ export default {
       } else {
         this.skuNum = parseInt(value);
       }
-    },
+    }, 
     //点击加入购物车的回调函数
     async addShopCar() {
       try {
@@ -408,7 +408,10 @@ export default {
           skuNum: this.skuNum,
         });
         //成功进行路由跳转
-        
+        //简单参数通过query传递
+        //产品信息数据（skuinfo）通过会话存储
+        sessionStorage.setItem("SKUINFO",JSON.stringify(this.skuInfo));
+        this.$router.push({name:'addcartsuccess',query:{skuNum:this.skuNum}})
       } catch (error) {
         alert(error.message);
       }

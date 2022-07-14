@@ -1,6 +1,8 @@
 import { reqGoodsInfo,reqAddOrUpdateShopCart } from "@/api"
+import {getUUID} from "@/utils/uuid_token";
 const state = {
-    goodInfo:{}
+    goodInfo:{},
+    uuid_token:getUUID()
 }
 const mutations = {
     GETGOODINFO(state,goodInfo){
@@ -17,7 +19,7 @@ const actions = {
             console.log(result);
         }
     },
-    //将产品加入购物车
+    //将产品加入购物车和修改购物车商品数目
     //加入购物车后服务器并没有返回数据，不需要三连环存储数据
      async addOrUpdateShopCart({commit},{skuId,skuNum}){
          let result = await reqAddOrUpdateShopCart(skuId,skuNum);
