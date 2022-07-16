@@ -66,7 +66,12 @@
     </div>
     <div class="cart-tool">
       <div class="select-all">
-        <input class="chooseAll" type="checkbox" :checked="isAllChecked" />
+        <input
+          class="chooseAll"
+          type="checkbox"
+          :checked="isAllChecked && cartInfoList.length>0"
+          @change="updateAllCartChecked"
+        />
         <span>全选</span>
       </div>
       <div class="option">
@@ -153,6 +158,16 @@ export default {
     async deleteAllCheckedCart() {
       try {
         await this.$store.dispatch("deleteAllCheckedCart");
+        this.getData();
+      } catch (error) {
+        alert(error.message);
+      }
+    },
+    //全选按钮
+    async updateAllCartChecked() {
+      try {
+        let isChecked = event.target.checked ? "1" : "0";
+        await this.$store.dispatch("updateAllCartIsChecked", isChecked);
         this.getData();
       } catch (error) {
         alert(error.message);

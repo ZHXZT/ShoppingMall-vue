@@ -13,6 +13,9 @@ import Detail from '@/pages/Detail';
 import AddCartSuccess from '@/pages/AddCartSuccess';
 import ShopCart from '@/pages/ShopCart';
 
+import store from "@/store";
+
+
 // 保存原来的push和replace方法
 let originPush = VueRouter.prototype.push;
 let originReplace = VueRouter.prototype.replace;
@@ -33,7 +36,7 @@ VueRouter.prototype.replace = function(location,resolve,reject){
 }
 
 // 配置路由
-export default new VueRouter({
+let router = new VueRouter({
     routes:[
         {
             path:"/shopcart",
@@ -89,3 +92,42 @@ export default new VueRouter({
         return{y:0};
     }
 })
+
+//全局路由守卫
+router.beforeEach(async(to,from,next)=>{
+    // to:可获取到跳转到的路由信息
+    //from：可获取到从那个路由来的信息
+    // next：放行函数
+    let token = store.state.user.token;
+    //用户信息
+    let name = store.state.user.userInfo.name;
+    //用户已经登录
+    if(token){
+        //已经登录还去login，留在首页
+        if(to.path == '/login'){
+            next('/home');
+        }else{
+            //登录，去的不是login
+            //如果用户名已经有
+            if(name){
+                next();
+            }else{
+                //没有用户信息，派发action，让仓库存储用户信息在跳转
+                try{
+                    //获取用户信息成功
+                    await store.dispatch('getUserInfo');
+                    next();
+                }catch(error){
+                    //token失效获取不到用户信息。重新登录
+                    await store.dispatch('userLoginout');
+                    next('/login');
+                }
+            }
+        }
+    }else{
+        //未登录暂时未处理
+        next();
+    }
+});
+
+export default router;

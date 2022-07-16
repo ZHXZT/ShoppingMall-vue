@@ -5,11 +5,15 @@
       <div class="container">
         <div class="loginList">
           <p>尚品汇欢迎您！</p>
-          <p>
+          <p v-if="!userName">
             <span>请</span>
             <!-- 声明式导航，必须有to属性 -->
             <router-link to="/login">登录</router-link>
             <router-link class="register" to="/register">免费注册</router-link>
+          </p>
+          <p v-else>
+            <a>{{ userName }}</a>
+            <a class="register" @click="logout">退出登录</a>
           </p>
         </div>
         <div class="typeList">
@@ -39,7 +43,11 @@
             class="input-error input-xxlarge"
             v-model="keyword"
           />
-          <button class="sui-btn btn-xlarge btn-danger" type="button" @click="goSearch">
+          <button
+            class="sui-btn btn-xlarge btn-danger"
+            type="button"
+            @click="goSearch"
+          >
             搜索
           </button>
         </form>
@@ -50,13 +58,13 @@
 
 <script>
 export default {
-  name:"",
-  data(){
-    return{
-      keyword:"",
-    }
+  name: "",
+  data() {
+    return {
+      keyword: "",
+    };
   },
-  methods:{
+  methods: {
     goSearch() {
       //代表的是如果有query参数也带过去
       if (this.$route.query) {
@@ -68,13 +76,28 @@ export default {
         this.$router.push(loction);
       }
     },
+    //退出登录
+    async logout() {
+      try {
+        await this.$store.dispatch("userLogout");
+        this.$router.push("/home");
+      } catch (error) {
+        alert(error.message);
+      }
+    },
   },
-  mounted(){
+  mounted() {
     //通过全局事件总线清除搜索框关键字
-    this.$bus.$on("clear",()=>{
+    this.$bus.$on("clear", () => {
       this.keyword = "";
-    })
-  }
+    });
+  },
+  computed: {
+    //登录的用户名
+    userName() {
+      return this.$store.state.user.userInfo.name;
+    },
+  },
 };
 </script>
 
