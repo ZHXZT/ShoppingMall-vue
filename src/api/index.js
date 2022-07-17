@@ -3,6 +3,7 @@
 import requests from "./request";
 //引入模拟数据的mock
 import mockRequests from './mockAjax';
+import trade from "@/store/trade";
 
 
 // 三级联动接口
@@ -33,3 +34,11 @@ export const reqUserLogin = (data)=>requests({url:'/user/passport/login',data,me
 export const reqUserInfo = ()=>requests({url:'/user/passport/auth/getUserInfo',method:'get'});
 //退出登录
 export const reqLogout = ()=>requests({url:"/user/passport/logout",method:'get'});
+//交易页面获取用户信息
+export const reqAddressInfo = ()=>requests({url:'/user/userAddress/auth/findUserAddressList',method:'get'});
+//交易页获取商品清单
+export const reqOrderInfo = ()=>requests({url:'/order/auth/trade',method:'get'});
+//提交订单
+export const reqSubmitOrder = (tradeNo,data)=>requests({url:`/order/auth/submitOrder?tradeNo=${tradeNo}`,data,method:'post'});
+//获取支付信息
+export const reqPayInfo = (orderId)=>requests({url:`/payment/weixin/createNative/${orderId}`,method:'get'});

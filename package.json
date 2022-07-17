@@ -10,6 +10,7 @@
   "dependencies": {
     "axios": "^0.27.2",
     "core-js": "^3.6.5",
+    "element-ui": "^2.15.9",
     "mockjs": "^1.1.0",
     "nprogress": "^0.2.0",
     "swiper": "^5.4.5",

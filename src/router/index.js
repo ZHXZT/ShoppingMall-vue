@@ -12,6 +12,8 @@ import Login from '@/pages/Login';
 import Detail from '@/pages/Detail';
 import AddCartSuccess from '@/pages/AddCartSuccess';
 import ShopCart from '@/pages/ShopCart';
+import Trade from '@/pages/Trade';
+import Pay from '@/pages/Pay';
 
 import store from "@/store";
 
@@ -38,6 +40,18 @@ VueRouter.prototype.replace = function(location,resolve,reject){
 // 配置路由
 let router = new VueRouter({
     routes:[
+        {
+            path:"/pay",
+            component:Pay,
+            meta:{show:true},
+            name:"pay"
+        },
+        {
+            path:"/trade",
+            component:Trade,
+            meta:{show:true},
+            name:"trade"
+        },
         {
             path:"/shopcart",
             component:ShopCart,
@@ -104,8 +118,8 @@ router.beforeEach(async(to,from,next)=>{
     //用户已经登录
     if(token){
         //已经登录还去login，留在首页
-        if(to.path == '/login'){
-            next('/home');
+        if(to.path == '/login' || to.path == '/register' ){
+            next('/');
         }else{
             //登录，去的不是login
             //如果用户名已经有

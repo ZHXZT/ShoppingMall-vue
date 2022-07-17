@@ -85,8 +85,8 @@
           <em>总价（不含运费） ：</em>
           <i class="summoney">{{ totalPrice }}</i>
         </div>
-        <div class="sumbtn">
-          <a class="sum-btn" href="###" target="_blank">结算</a>
+        <div class="sumbtn" @click="$router.push('/trade')">
+          <a class="sum-btn" >结算</a>
         </div>
       </div>
     </div>
