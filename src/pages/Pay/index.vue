@@ -93,11 +93,14 @@
 </template>
 
 <script>
+//二维码生成插件
+import QRCode from 'qrcode';
 export default { 
   name: "Pay",
   data(){
     return {
       payInfo:{},
+      timer:null,
     }
   },
   computed: {
@@ -121,15 +124,50 @@ export default {
       }
     },
     //支付弹出窗口
-    open(){
-      this.$alert("<strong>这是<i>偏度</i></strong>","html",{
+    async open(){
+      //生成二维码图片url
+      let url = await QRCode.toDataURL(this.payInfo.codeUrl);
+      //弹窗页面
+      this.$alert(`<img src=${url} />`,"请打开微信扫码支付",{
         dangerouslyUseHTMLString:true,
         center:true,
         showCancelButton:true,
         cancelButtonText:"支付遇见问题",
         confirmButtonText:"已经完成支付",
         showClose:false,
-      })
+        //弹窗关闭前
+        beforeClose:(type,instance,done)=>{
+          // 点击取消
+          if(type == 'cancel'){
+            alert('请联系管理员');
+            clearInterval(this.timer);
+            this.timer = null;
+            done();
+          }else{
+            // if(this.code == 200){
+              clearInterval(this.timer);
+              this.timer = null;
+              done();
+              this.$router.push('/paysuccess');
+            // }
+          }
+        }
+      });
+      //定时器
+      if(!this.timer){
+        this.timer = setInterval(async ()=>{
+          let result = await this.$API.reqPayStatus(this.orderId);
+          console.log(result);
+          //支付完成
+          if(result.code == 200){
+            clearInterval(this.timer);
+            this.timer = null;
+            this.code = result.code;
+            this.$msgbox.close();
+            this.$router.push('/paysuccess');
+          }
+        },1000)
+      }
     }
   },
 };
