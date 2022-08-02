@@ -1,6 +1,6 @@
 import {reqAddressInfo,reqOrderInfo} from '@/api';
 
-
+//交易页面仓库
 const state = {
     address:[],
     orderInfo:{}

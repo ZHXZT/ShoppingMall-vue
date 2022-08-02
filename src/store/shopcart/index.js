@@ -3,6 +3,8 @@ import {
     reqDeleteCartById,
     reqUpdateCheckedByid
 } from "@/api";
+
+// 购物车仓库
 const state = {
     cartList: []
 };

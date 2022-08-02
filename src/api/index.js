@@ -3,7 +3,7 @@
 import requests from "./request";
 //引入模拟数据的mock
 import mockRequests from './mockAjax';
-import trade from "@/store/trade";
+// import trade from "@/store/trade";
 
 
 // 三级联动接口

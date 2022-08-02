@@ -24,7 +24,7 @@ const actions = {
         }
     }
 };
-//getters用于简化仓库的数据
+
 const getters = {
 goodsList(state){
     return state.searchList.goodsList||[];
